@@ -24,6 +24,7 @@ import {
 } from "@tabler/icons-react";
 import { useAccount } from "../../hooks/useAccount";
 import { truncateHash } from "../../utils";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
 	header: {
@@ -105,7 +106,7 @@ const useStyles = createStyles((theme) => ({
 const data = [
 	{ link: "", label: "Explore", icon: IconZoomMoney },
 	{ link: "", label: "Disputes", icon: IconAlertOctagon },
-	{ link: "", label: "List item", icon: IconPlus },
+	{ link: "mint", label: "Mint", icon: IconPlus },
 	{ link: "", label: "Settings", icon: IconSettings },
 ];
 
@@ -116,20 +117,20 @@ export default function NavbarSimple() {
 	const [active, setActive] = useState("Billing");
 
 	const links = data.map((item) => (
-		<a
-			className={cx(classes.link, {
-				[classes.linkActive]: item.label === active,
-			})}
-			href={item.link}
-			key={item.label}
-			onClick={(event) => {
-				event.preventDefault();
-				setActive(item.label);
-			}}
-		>
-			<item.icon className={classes.linkIcon} stroke={1.5} />
-			<span>{item.label}</span>
-		</a>
+		<Link key={item.label} href={item.link} legacyBehavior>
+			<a
+				className={cx(classes.link, {
+					[classes.linkActive]: item.label === active,
+				})}
+				key={item.label}
+				onClick={(event) => {
+					setActive(item.label);
+				}}
+			>
+				<item.icon className={classes.linkIcon} stroke={1.5} />
+				<span>{item.label}</span>
+			</a>
+		</Link>
 	));
 
 	return (

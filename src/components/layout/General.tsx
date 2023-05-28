@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { AppShell, Header } from "@mantine/core";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface LayoutProps {
 	children: React.ReactNode;
 }
@@ -24,6 +25,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
 			>
 				<main>{children}</main>
 			</AppShell>
+			<ToastContainer />
 		</>
 	);
 };

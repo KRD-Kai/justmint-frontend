@@ -3,6 +3,7 @@ import { NFT_CONTRACT_ADDR } from "../constants";
 import { useAccount } from "../hooks/useAccount";
 import { Button } from "@mantine/core";
 import { useAccountContext } from "../hooks/accountProvider";
+import { toast } from "react-toastify";
 
 export default function Mint() {
 	const { smartAccount, loading, login, logout } = useAccountContext();
@@ -40,6 +41,7 @@ export default function Mint() {
 
 	async function sendTx(transaction) {
 		if (!smartAccount) return;
+		toast.info("Transaction initiated");
 		const txResponse = await smartAccount.sendTransaction({
 			transaction: transaction,
 		});
@@ -47,6 +49,7 @@ export default function Mint() {
 		// If you do not subscribe to listener, one can also get the receipt like shown below
 		const txReciept = await txResponse.wait();
 		console.log("Tx hash", txReciept.transactionHash);
+		toast.success(`Success!: ${txReciept.transactionHash}`);
 	}
 
 	return (

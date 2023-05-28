@@ -4,9 +4,13 @@ import { useAccount } from "../hooks/useAccount";
 import { Button } from "@mantine/core";
 import { useAccountContext } from "../hooks/accountProvider";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function Mint() {
 	const { smartAccount, loading, login, logout } = useAccountContext();
+	const [initiated, setInitiated] = useState<boolean>(false);
+	const [success, setSuccess] = useState<boolean>(false);
+	const [hash, setHash] = useState<string>("");
 
 	if (!smartAccount) return <h1>Please log in</h1>;
 
@@ -42,6 +46,7 @@ export default function Mint() {
 	async function sendTx(transaction) {
 		if (!smartAccount) return;
 		toast.info("Transaction initiated");
+		setInitiated(true);
 		const txResponse = await smartAccount.sendTransaction({
 			transaction: transaction,
 		});
@@ -49,11 +54,14 @@ export default function Mint() {
 		// If you do not subscribe to listener, one can also get the receipt like shown below
 		const txReciept = await txResponse.wait();
 		console.log("Tx hash", txReciept.transactionHash);
+		setInitiated(false);
+		setSuccess(true);
+		setHash(txReciept.transactionHash);
 		toast.success(`Success!: ${txReciept.transactionHash}`);
 	}
 
 	return (
-		<div className="text-center">
+		<div className="text-center mt-32">
 			<h1>Mint</h1>
 			<p>
 				The button below will mint your very own NFT as part of the DEMO
@@ -64,9 +72,16 @@ export default function Mint() {
 				variant="gradient"
 				gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
 				size="lg"
+				loading={initiated}
 			>
 				Magic mint 🪄
 			</Button>
+
+			{success && !initiated && (
+				<p>
+					NFT minteeed! Tx hash: <b>{hash}</b>
+				</p>
+			)}
 		</div>
 	);
 }

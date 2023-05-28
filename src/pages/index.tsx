@@ -1,4 +1,5 @@
 import { useAccount } from "../hooks/useAccount";
+import { Button } from "@mantine/core";
 
 function Index() {
 	const { smartAccount, loading, login, logout } = useAccount();
@@ -6,14 +7,14 @@ function Index() {
 	return (
 		<>
 			{!smartAccount && !loading && (
-				<button onClick={login}>Login</button>
+				<Button onClick={login}>Login</Button>
 			)}
 			{loading && <p>Loading account details...</p>}
 			{!!smartAccount && (
 				<div>
 					<h3>Smart account address:</h3>
 					<p>{smartAccount.address}</p>
-					<button onClick={logout}>Logout</button>
+					<Button onClick={logout}>Logout</Button>
 				</div>
 			)}
 		</>

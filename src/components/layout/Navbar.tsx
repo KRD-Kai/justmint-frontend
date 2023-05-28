@@ -8,7 +8,10 @@ import {
 	rem,
 	Button,
 	LoadingOverlay,
+	Tooltip,
 } from "@mantine/core";
+import { useClipboard } from "@mantine/hooks";
+
 import {
 	IconFingerprint,
 	IconKey,
@@ -22,6 +25,8 @@ import {
 	IconZoomMoney,
 	IconAlertOctagon,
 	IconPlus,
+	IconCopy,
+	IconCheck,
 } from "@tabler/icons-react";
 import { useAccount } from "../../hooks/useAccount";
 import { truncateHash } from "../../utils";
@@ -118,6 +123,8 @@ export default function NavbarSimple() {
 	const { classes, cx } = useStyles();
 	const [active, setActive] = useState("Billing");
 
+	const clipboard = useClipboard();
+
 	const links = data.map((item) => (
 		<Link key={item.label} href={item.link} legacyBehavior>
 			<a
@@ -149,7 +156,48 @@ export default function NavbarSimple() {
 					{!!smartAccount && (
 						<div>
 							<h3>Smart account address:</h3>
-							<p>{truncateHash(smartAccount.address, 8, 8)}</p>
+							<div className="flex justify-between  items-center">
+								{truncateHash(smartAccount.address, 8, 8)}
+								<Tooltip
+									label="Link copied!"
+									offset={5}
+									position="bottom"
+									radius="xl"
+									transitionProps={{
+										duration: 100,
+										transition: "slide-down",
+									}}
+									opened={clipboard.copied}
+								>
+									<Button
+										variant="light"
+										radius="xl"
+										size="sm"
+										styles={{
+											root: {
+												paddingRight: rem(14),
+												height: rem(48),
+											},
+											rightIcon: { marginLeft: rem(22) },
+										}}
+										onClick={() =>
+											clipboard.copy(smartAccount.address)
+										}
+									>
+										{clipboard.copied ? (
+											<IconCheck
+												size="1.2rem"
+												stroke={1.5}
+											/>
+										) : (
+											<IconCopy
+												size="1.2rem"
+												stroke={1.5}
+											/>
+										)}
+									</Button>
+								</Tooltip>
+							</div>
 						</div>
 					)}
 				</Group>

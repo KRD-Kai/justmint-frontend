@@ -12,12 +12,10 @@ export default function Mint() {
 	console.log(smartAccount.address);
 
 	const nftInterface = new ethers.utils.Interface([
-		"function safeMint(address to, uint256 tokenId, string uri )",
+		"function mint(address _to)",
 	]);
-	const encodedData = nftInterface.encodeFunctionData("safeMint", [
+	const encodedData = nftInterface.encodeFunctionData("mint", [
 		smartAccount.address,
-		1,
-		"ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
 	]);
 
 	const tx = {
@@ -54,6 +52,10 @@ export default function Mint() {
 	return (
 		<div className="text-center">
 			<h1>Mint</h1>
+			<p>
+				The button below will mint your very own NFT as part of the DEMO
+				collection! Gas on the house ;)
+			</p>
 			<Button
 				onClick={() => sendTx(tx)}
 				variant="gradient"

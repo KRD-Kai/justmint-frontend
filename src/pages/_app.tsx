@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import "@biconomy/web3-auth/dist/src/style.css";
+import Layout from "../components/layout/General";
 // import { Inter } from "@next/font/google";
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +28,9 @@ export default function App(props: AppProps) {
 					colorScheme: "light",
 				}}
 			>
-				<Component {...pageProps} />
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
 			</MantineProvider>
 		</>
 	);

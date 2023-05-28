@@ -7,6 +7,7 @@ import {
 	getStylesRef,
 	rem,
 	Button,
+	LoadingOverlay,
 } from "@mantine/core";
 import {
 	IconFingerprint,
@@ -25,6 +26,7 @@ import {
 import { useAccount } from "../../hooks/useAccount";
 import { truncateHash } from "../../utils";
 import Link from "next/link";
+import { useAccountContext } from "../../hooks/accountProvider";
 
 const useStyles = createStyles((theme) => ({
 	header: {
@@ -105,13 +107,13 @@ const useStyles = createStyles((theme) => ({
 
 const data = [
 	{ link: "", label: "Explore", icon: IconZoomMoney },
-	{ link: "", label: "Disputes", icon: IconAlertOctagon },
+	// { link: "", label: "Disputes", icon: IconAlertOctagon },
 	{ link: "mint", label: "Mint", icon: IconPlus },
 	{ link: "", label: "Settings", icon: IconSettings },
 ];
 
 export default function NavbarSimple() {
-	const { smartAccount, loading, login, logout } = useAccount();
+	const { smartAccount, loading, login, logout } = useAccountContext();
 
 	const { classes, cx } = useStyles();
 	const [active, setActive] = useState("Billing");
@@ -136,13 +138,14 @@ export default function NavbarSimple() {
 	return (
 		<Navbar height="100vh" width={{ sm: 300 }} p="md">
 			<Navbar.Section grow>
+				<LoadingOverlay visible={loading} overlayBlur={2} />
 				<Group className={classes.header} position="apart">
 					{!smartAccount && !loading && (
 						<Button fullWidth onClick={login}>
 							Login
 						</Button>
 					)}
-					{loading && <p>Loading account details...</p>}
+					{loading && <p>Your smart address</p>}
 					{!!smartAccount && (
 						<div>
 							<h3>Smart account address:</h3>

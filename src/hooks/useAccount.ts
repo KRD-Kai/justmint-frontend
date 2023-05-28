@@ -61,8 +61,17 @@ export function useAccount() {
 		);
 		try {
 			const smartAccount = new SmartAccount(web3Provider, {
-				activeNetworkId: ChainId.POLYGON_MAINNET,
-				supportedNetworksIds: [ChainId.POLYGON_MAINNET],
+				activeNetworkId: ChainId.POLYGON_MUMBAI,
+				supportedNetworksIds: [ChainId.POLYGON_MUMBAI],
+				networkConfig: [
+					{
+						chainId: ChainId.POLYGON_MUMBAI,
+						dappAPIKey:
+							"Onp8LEBu6.98a8251f-90d2-46d3-942d-b4f2f89b4675",
+						providerUrl:
+							"https://polygon-mumbai.g.alchemy.com/v2/F-cYF-UhupPL_wi2hH8NhVay0KkYzUFc",
+					},
+				],
 			});
 			await smartAccount.init();
 			setSmartAccount(smartAccount);

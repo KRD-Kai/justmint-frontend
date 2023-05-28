@@ -1,5 +1,7 @@
+import { useAccount } from "../hooks/useAccount";
+
 function Index() {
-	return <>hi</>;
+	return <>test</>;
 }
 
 export default Index;
